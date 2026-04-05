@@ -1,7 +1,7 @@
 # Test doc para /github-patch
 
 ## Estado actual
-> versión inicial — sin cambios
+> **v2** — parcheado vía /github-patch en línea 4 · commit automático
 
 ## Sección A
 Contenido original de la sección A.
