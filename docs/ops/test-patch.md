@@ -8,13 +8,13 @@ Este archivo existe para verificar que los endpoints del Worker funcionan correc
 Fue creado, parcheado y ampliado durante la sesión de desarrollo del 5 Abr 2026.
 
 ## Estado actual
-> **v2** — parcheado vía /github-patch en línea 4 · commit automático
+> **v3** — multi-patch (2 cambios, 1 commit) · `/github-patch` con `patches:[]`
 
 ## Sección A
 Contenido original de la sección A.
 
 ## Sección B
-Contenido original de la sección B.
+Actualizado vía multi-patch — segundo cambio del mismo commit atómico.
 
 ## Changelog
 - 2026-04-05: archivo creado para test de /github-patch
