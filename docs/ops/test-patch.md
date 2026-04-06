@@ -31,4 +31,4 @@ Demostración de append sin tocar el resto del documento.
 - 2026-04-06: /github-read-section ✓ — lecturas parciales sin cargar todo el doc
 - 2026-04-06: multi-patch 6 ops ✓ — atómico
 - 2026-04-06: v4.0.1 stress test — 0 errores
-- 2026-04-06: Sección C añadida via /github-append
+- 2026-04-07: test write via LAST github_patch ✅
