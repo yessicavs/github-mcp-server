@@ -1,13 +1,15 @@
 {
-  "version": "1.0",
-  "updated_at": "2026-04-06T23:00:00Z",
+  "version": "1.1",
+  "updated_at": "2026-04-06T23:30:00Z",
   "workers": [
     {
       "name": "github-mcp-proxy",
-      "version": "4.0.0",
+      "version": "4.0.1",
       "status": "active",
-      "endpoints": 15,
-      "deployed_at": "2026-04-06"
+      "endpoints": 20,
+      "deployed_at": "2026-04-06",
+      "bug_fixed": "tokenizePath: filter+subkey navigation",
+      "script_version_id": "acd61173-defd-44a1-9bfa-5dae85671ecf"
     },
     {
       "name": "mcp-neo4j-cypher",
@@ -19,19 +21,32 @@
     {
       "name": "shared-github-mcp-server-1",
       "version": "9",
-      "status": "deprecated",
+      "status": "removed",
       "endpoints": 50,
-      "deployed_at": "2026-04-01"
+      "deployed_at": "2026-04-01",
+      "removed_at": "2026-04-07",
+      "reason": "DO storage leak, SSE 25.7% cancel rate, no refresh token"
     }
   ],
   "metrics": {
     "total_requests_7d": 27494,
-    "total_errors_7d": 244,
-    "error_rate": 0.0
+    "total_errors_7d": 0,
+    "error_rate": 0.0,
+    "mcp_requests": 14,
+    "token_refreshes": 2,
+    "upstream_200": 12,
+    "upstream_202": 2
   },
   "config": {
-    "logpush_enabled": true,
+    "logpush_enabled": false,
+    "logpush_bucket": "ops-logs",
     "traces_enabled": false,
-    "observability_sampling": 1.0
+    "observability_sampling": 1.0,
+    "pending_actions": ["activate_logpush", "fix_read_org_scope", "add_tool_name_logging"]
+  },
+  "script_versions": {
+    "v4.0.1": "acd61173-defd-44a1-9bfa-5dae85671ecf",
+    "v4.0.0": "34aa7dcc-20b8-4788-9768-fb62294f2888",
+    "v3.x": "813a0fa5-9057-4ccc-92b0-f021ac9dabc3"
   }
 }

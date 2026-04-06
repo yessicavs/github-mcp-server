@@ -1,27 +1,34 @@
 # Test doc — /github-patch, /github-append
-> `yessicavs/github-mcp-server` · archivo de test para endpoints de edición
-> Creado: 2026-04-05 · verificado en producción con Worker v3.1
+> `yessicavs/github-mcp-server` · stress test doc
+> Actualizado: 2026-04-06 · v4.0.1
 
 ---
 
-Este archivo existe para verificar que los endpoints del Worker funcionan correctamente.
-Fue creado, parcheado y ampliado durante la sesión de desarrollo del 5 Abr 2026.
+Archivo de test para `/github-patch`, `/github-append`, `/github-read-section`.
 
 ## Estado actual
-> **v3** — multi-patch (2 cambios, 1 commit) · `/github-patch` con `patches:[]`
+
+- v4.0.1 activo — tokenizePath bug corregido
+- 0 errores en 7 días de observabilidad
 
 ## Sección A
-Contenido original de la sección A.
+
+Contenido de prueba para edición quirúrgica.
+Este texto aparece exactamente UNA vez — str_replace funcionará sin ambigüedad.
 
 ## Sección B
-Actualizado vía multi-patch — segundo cambio del mismo commit atómico.
+
+Otro bloque único. Nunca duplicar texto aquí.
+
+## Sección C — nueva (INSERT via /github-append)
+
+Esta sección fue añadida via `/github-append` en la sesión de stress test.
+Demostración de append sin tocar el resto del documento.
 
 ## Changelog
-- 2026-04-05: archivo creado para test de /github-patch
-- 2026-04-05: /github-patch ✓ — reemplazó sección "Estado actual" en línea 4, delta +74 chars
-- 2026-04-05: /github-append ✓ — esta línea añadida sin tocar el resto del archivo
-- 2026-04-05: frontmatter añadido, worker v3.1 — /github-read-section disponible
-- 2026-04-05: /github-search ✓ — match único "Estado actual" en línea 11, contexto 2 líneas
-- 2026-04-05: /github-read-section ✓ — líneas 11-12 + contexto, SHA directo para patch
-- 2026-04-05: multi-patch ✓ — 2 cambios en 1 commit (Estado actual v3 + Sección B)
-- 2026-04-05: /github-append ✓ — esta entrada añadida al final sin tocar el resto
+
+- 2026-04-05: creado para test básico de patch/append
+- 2026-04-06: /github-read-section ✓ — lecturas parciales sin cargar todo el doc
+- 2026-04-06: multi-patch 6 ops ✓ — atómico
+- 2026-04-06: v4.0.1 stress test — 0 errores
+- 2026-04-06: Sección C añadida via /github-append
