@@ -1,7 +1,7 @@
 # github-mcp-proxy — Runbook de Infraestructura
 > `yessicavs/github-mcp-server` · Ops@growthxy.com
-> Actualizado: 2026-04-06 · commit `e4e74758`
-> Mantenedor: @zaste · Worker: github-mcp-proxy v4.0.0
+> Actualizado: 2026-04-06 · commit `30859520`
+> Mantenedor: @zaste · Worker: github-mcp-proxy v4.0.1
 
 ---
 
@@ -25,7 +25,7 @@ Claude.ai web
     │  OAuth 2.0 + PKCE
     │  (register → authorize → token → refresh)
     ▼
-github-mcp-proxy.ops-e1a.workers.dev   ← este Worker (v4.0.0)
+github-mcp-proxy.ops-e1a.workers.dev   ← este Worker (v4.0.1)
     │  KV: github-mcp-proxy-OAUTH
     │  Bearer <github_pat> inyectado por Worker
     ▼
@@ -82,6 +82,7 @@ streamable-HTTP (sin SSE timeout), refresh token con TTL 30 días.
 | v3.0 | 2026-04-05 | `e0498759` | CRLF normalization, multi-patch, `/github-search` |
 | v3.1 | 2026-04-05 | `82f45ec0` | Add `/github-read-section` (líneas N-M + context) |
 | **v4.0** | **2026-04-06** | **`0f1b466f`** | `/github-outline`, `/github-replace-section`, `/github-json-patch`, `/github-table-upsert`, `/github-search-dir`, `dry_run`, `_index.json` auto |
+| **v4.0.1** | **2026-04-06** | **`d9f17668`** | tokenizePath bug fix: `[?(@.field=='val')].subkey` — bracket-aware tokenizer, filter+subkey navigation works |
 
 ---
 
@@ -162,7 +163,7 @@ interface BaseRequest {
 | `POST /github-append` | v2.0 | Añade al final del archivo | Changelogs, listas append-only |
 | `POST /github-search` | v3.0 | Busca string con contexto | Localizar antes de parchear |
 | `POST /github-replace-section` | v4.0 | Reemplaza sección completa | Secciones largas sin old_str único |
-| `POST /github-json-patch` | v4.0 | JSONPath ops sobre JSON | Archivos JSON con estructura repetitiva |
+| `POST /github-json-patch` | v4.0.1 | JSONPath ops sobre JSON — FIXED: filter+subkey | Archivos JSON con estructura repetitiva |
 | `POST /github-table-upsert` | v4.0 | Upsert fila en tabla markdown | Tablas con datos cambiantes por clave |
 | `POST /github-search-dir` | v4.0 | Busca en directorio completo | Referencias cruzadas, renombrar |
 
@@ -412,8 +413,9 @@ de auditar retroactivamente.
 ### P4 — Deprecar shared-github-mcp-server-1 (coordinado)
 
 El Worker viejo sigue activo en `ops-e1a`. No tiene usuarios activos
-conocidos después de la migración a `github-mcp-proxy`. Borrar los DO
-orphaned y el Worker en la próxima ventana de mantenimiento.
+conocidos después de la migración a `github-mcp-proxy`. Status actualizado a
+`removed` en `test-data.json` (stress test 2026-04-06) — borrar el Worker y
+DO orphaned en la próxima ventana de mantenimiento.
 
 ```bash
 # Verificar que no tiene tráfico antes de borrar
@@ -542,6 +544,8 @@ Con `_index.json` esa información está disponible en una sola lectura de
 
 ## 12. Changelog
 
+- **2026-04-06** — **v4.0.1**: tokenizePath bug fix — `[?(@.field=='val')].subkey` resuelto.
+  etag `d9f17668`, scriptVersionId `acd61173-defd-44a1-9bfa-5dae85671ecf`.
 - **2026-04-06** — v4.0.0: `/github-outline`, `/github-replace-section`,
   `/github-json-patch`, `/github-table-upsert`, `/github-search-dir`,
   `dry_run:true`, `_index.json` auto. Fuente TypeScript y seed de `_index.json`
@@ -562,3 +566,6 @@ Con `_index.json` esa información está disponible en una sola lectura de
 - **2026-04-06** — runbook.md: documento creado con todas las secciones.
   Editado via `/github-replace-section` (§7 observabilidad con datos reales),
   `/github-patch` (frontmatter SHA actualizado), `/github-append` (esta entrada).
+- **2026-04-06** — stress test completo: bug tokenizePath encontrado en producción,
+  8 patches atómicos sobre doc 21KB, SHA conflict test ✅, 3-file atomic update ✅,
+  JSONPath filter+subkey ✅ (v4.0.1), 11 casos de test pasados.
